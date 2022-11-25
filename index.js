@@ -16,12 +16,25 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run(){
     try{
         const categoryCollection = client.db('resalemobilearc').collection('brandcategory');
+        const productsCollection = client.db('resalemobilearc').collection('products');
 
         app.get('/categories', async(req, res) => {
             const query = {};
             const cursor = categoryCollection.find(query);
             const categories = await cursor.toArray();
             res.send(categories);
+        });
+
+        app.get('/categories/:id', async(req, res) => {
+            const qureyNumber = req.params.id
+            const query = {};
+            const cursor = productsCollection.find(query);
+            const result = await cursor.toArray();
+            
+            let productData = result.filter((b) => parseFloat(b.category_id) === parseFloat(qureyNumber))
+            console.log('this is ',productData)
+            // console.log(result)
+            res.send(productData)
         })
 
     }
