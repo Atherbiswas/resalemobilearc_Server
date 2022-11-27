@@ -30,7 +30,6 @@ async function run(){
             const query = {};
             const cursor = productsCollection.find(query);
             const result = await cursor.toArray();
-            
             let productData = result.filter((b) => parseFloat(b.category_id) === parseFloat(qureyNumber))
             console.log('this is ',productData)
             // console.log(result)
