@@ -17,6 +17,8 @@ async function run(){
     try{
         const categoryCollection = client.db('resalemobilearc').collection('brandcategory');
         const productsCollection = client.db('resalemobilearc').collection('products');
+        const bookingsCollection = client.db('resalemobilearc').collection('bookings');
+
 
         app.get('/categories', async(req, res) => {
             const query = {};
@@ -31,9 +33,14 @@ async function run(){
             const cursor = productsCollection.find(query);
             const result = await cursor.toArray();
             let productData = result.filter((b) => parseFloat(b.category_id) === parseFloat(qureyNumber))
-            console.log('this is ',productData)
-            // console.log(result)
             res.send(productData)
+        });
+
+        app.post('/booking', async(req, res) => {
+            const booking = req.body;
+            console.log(booking);
+            const result = await bookingsCollection.insertOne(booking);
+            res.send(result);
         })
 
     }
